@@ -3,29 +3,44 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Route::get('/profile',function (){
-   return 'Saya A Fahri Putra Pratama';
+Route::get('about',function (){
+   $title = "about - toko gue";
+   
+
+   return view('web.about',['title'=>$title]);
 });
 
-Route::get('/cart',function (){
-   return 'Ini adalah halaman Keranjang';
+Route::get('cart',function (){
+   return view('web.cart');
 });
 
-Route::get('/contact',function (){
-   return 'Ini adalah halaman Kontak';
+Route::get('contact',function (){
+   return view('web.contact');
 });
 
-Route::get('/product',function (){
-   return 'Ini adalah halaman Produk';
+Route::get('product',function (){
+   return view('web.products');
+
 });
 
-Route::get('/coba',function (){
-   return 'HELLO WORLD';
+Route::get('product/{slug}',function ($slug){
+   return view('web.single_product');
 });
+
+Route::get('categories', function(){
+   return view('web.categories');
+  });
+
+Route::get('category/{slug}', function($slug){
+   return view('web.single_category');
+  });
+  
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+   $title = "Homepage - toko gue";
+
+    return view('web.homepage',['title'=>$title]);
+});
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
