@@ -6,7 +6,6 @@ use Livewire\Volt\Volt;
 Route::get('about',function (){
    $title = "about - toko gue";
    
-
    return view('web.about',['title'=>$title]);
 });
 
