@@ -24,9 +24,7 @@ $jumlah = count($img)
                         
                     </div>
                 </div>
-                <div class="alert alert-warning" role="alert">
-                    STOK TERBATAS!!!!
-                </div>
+                <x-alert></x-alert>
             </div>
         <?php endfor; ?>
     </div>
