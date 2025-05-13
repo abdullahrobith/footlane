@@ -1,14 +1,26 @@
 <?php
 
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\DashboardController; 
 use App\Http\Controllers\HomepageController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-Route::get('/',[HomepageController::class,'index']);
+Route::get('/',[HomepageController::class,'index'])->name('home');
 Route::get('cart',[HomepageController::class,'cart']);
 Route::get('about',[HomepageController::class,'about']);
 Route::get('contact',[HomepageController::class,'contact']);
 Route::get('product',[HomepageController::class,'product']);
+
+Route::group(['prefix'=>'dashboard'], function(){ 
+   Route::get('/',[DashboardController::class,'index'])->name('dashboard'); 
+
+   Route::resource('categories',ProductCategoryController::class);
+   Route::resource('products',ProductsController::class);
+   
+})->middleware(['auth', 'verified']); 
 // Route::get('product/{slug}',[HomepageController::class,'product']);
 
 // Route::get('about',function (){
