@@ -73,8 +73,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
+
+
 <div class="flex flex-col gap-6">
-    <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+    <x-auth-header :title="__('Selamat Datang')" :description="__('Login ke FOOTLANE')" />
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
@@ -112,9 +114,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <!-- Remember Me -->
         <flux:checkbox wire:model="remember" :label="__('Remember me')" />
 
-        <div class="flex items-center justify-end">
-            <flux:button variant="primary" type="submit" class="w-full">{{ __('Log in') }}</flux:button>
-        </div>
+        <flux:button type="submit" class="w-full" style="background-color: #FFA500; color: white;">
+            {{ __('Log in') }}
+        </flux:button>
     </form>
 
     @if (Route::has('register'))

@@ -15,17 +15,18 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->input('search');
+        $query = Products::with('category');
 
-        $products = Products::with('category') // relasi kategori
-            ->when($search, function ($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%');
-            })
-            ->paginate(10)
-            ->withQueryString(); // agar ?search tetap di pagination
+        if ($search = $request->search) {
+            $query->where('name', 'like', "%{$search}%");
+        }
 
-        return view('dashboard.products.indexproducts', ['products' => $products]);
+        // AMBIL SEMUA DATA TANPA PAGINASI
+        $products = $query->orderBy('created_at', 'desc')->get();
+
+        return view('products.index', compact('products'));
     }
+
 
     /**
      * Show the form for creating a new resource.

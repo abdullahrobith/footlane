@@ -13,7 +13,6 @@
                             hari harimu
                         </h1>
                         <div class="d-flex gap-3">
-                            <a href="#promo" class="btn btn-light shadow">Promo</a>
                             <a href="/products" class="btn btn-outline-light">Produk Kami</a>
                         </div>
                     </div>
