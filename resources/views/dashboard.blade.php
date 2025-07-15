@@ -3,7 +3,7 @@
 
         {{-- Sambutan Admin --}}
         <div class="text-center mb-4">
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Selamat datang kembali, Mek's! 👋</h1>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Selamat datang kembali, ADMIN! 👋</h1>
             <p class="text-gray-500 dark:text-gray-300 text-sm mt-1">Semoga harimu harimu dipertemukan dengan darksystem yang mengharuskanmu untuk bekerja lebih keras lagi 💀</p>
         </div>
 

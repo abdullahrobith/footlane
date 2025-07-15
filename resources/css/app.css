@@ -61,6 +61,35 @@ select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
 
+.navbar-nav .nav-link:hover {
+    text-decoration: underline;
+    transition: 0.2s ease-in-out;
+}
+
+.nav-link.hover-orange:hover {
+    color: #E29812 !important;
+    transition: color 0.3s ease;
+}
+
+a:hover svg.icon-tabler-shopping-cart {
+    color: #E29812;
+    transition: color 0.3s ease;
+}
+
+.hover-orange:hover {
+    color: #E29812 !important;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-item .nav-link {
+    transition: all 0.2s ease-in-out;
+}
+
+.hero-box {
+    background-color: #FFC400;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */

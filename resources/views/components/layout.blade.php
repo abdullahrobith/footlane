@@ -1,181 +1,193 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? ''}}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="icon" href="{{ asset('img/logo 1.png') }}" type="image/png">
+    <title>{{ $title ?? 'Footlane' }}</title>
+
+    {{-- Bootstrap CSS --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {{-- Tambahan Style Khusus Halaman --}}
     {{ $style ?? '' }}
+
+    {{-- Font Awesome --}}
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+
     <style>
-        .category-card {
-            transition: transform 0.3s;
-            height: 100%;
+        :root {
+            --primary-color: #ce8600ff;
+            --secondary-color: rgba(168, 109, 0, 1)
         }
 
-        .category-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        .category-img {
-            height: 120px;
-            object-fit: cover;
+        main {
+            flex: 1;
         }
 
-        .card-body {
-            padding: 0.75rem;
+        .footer {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
         }
 
-        .card-title {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
+        .footer-heading {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
         }
 
-        .card-text {
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
+        .footer-heading::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: white;
         }
 
-        .btn-sm {
-            font-size: 0.8rem;
-            padding: 0.25rem 0.5rem;
+        .footer-links,
+        .footer-contact {
+            padding-left: 0;
         }
 
-        .product-card {
-            transition: transform 0.3s;
-            height: 100%;
+        .footer-links li,
+        .footer-contact li {
+            list-style: none;
+            margin-bottom: 0.65rem;
+            font-size: 0.95rem;
         }
 
-        .product-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
 
-        .product-img {
-            height: 120px;
-            object-fit: cover;
+        .footer-links a:hover {
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .btn-sm {
-            font-size: 0.8rem;
-            padding: 0.25rem 0.5rem;
+        .footer-contact i {
+            width: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .rating {
-            color: #ffc107;
-            font-size: 0.85rem;
+        .footer-bottom {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1rem;
+            margin-top: 2rem;
         }
 
-        .cart-item {
-            border-bottom: 1px solid #dee2e6;
-            padding: 0.75rem 0;
+        .footer-bottom img {
+            height: 25px;
+            object-fit: contain;
+            border-radius: 3px;
         }
 
-        .cart-img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
+        .social-links a {
+            color: white;
+            margin-right: 10px;
+            font-size: 1.25rem;
         }
 
-        .cart-item-name {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .cart-item-price,
-        .cart-item-subtotal {
-            font-size: 0.85rem;
-        }
-
-        .btn-sm {
-            font-size: 0.8rem;
-            padding: 0.25rem 0.5rem;
-        }
-
-        .quantity-input {
-            width: 60px;
-            font-size: 0.85rem;
-            padding: 0.25rem;
-        }
-
-        .total-section {
-            font-size: 1rem;
-        }
-
-        @media (max-width: 576px) {
-            .cart-img {
-                width: 60px;
-                height: 60px;
+        @media (max-width: 768px) {
+            .footer-heading::after {
+                left: 50%;
+                transform: translateX(-50%);
             }
 
-            .cart-item-name {
-                font-size: 0.9rem;
+            .footer {
+                text-align: center;
             }
 
-            .cart-item-price,
-            .cart-item-subtotal {
-                font-size: 0.8rem;
+            .footer .row > div {
+                margin-bottom: 2rem;
             }
 
-            .quantity-input {
-                width: 50px;
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
         }
     </style>
 </head>
-
 <body>
     <x-navbar></x-navbar>
-    <div class="container-fluid py-4">
+
+    <main class="pt-5 pb-5">
         {{ $slot }}
-    </div>
-    <footer class="bg-dark text-white pt-4 mt-5" style="background:
-linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%);">
-        <div class="container p-3">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <h5 class="mb-3">E-Commerce</h5>
-                    <p class="small">Belanja mudah, cepat, dan aman di toko
-                        online kami. Temukan produk favorit Anda dengan harga terbaik.</p>
+    </main>
+
+    <footer class="footer pt-5 pb-4">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-md-4 col-lg-3">
+                    <img src="{{ asset('img/logo.png') }}" alt="Footlane Logo" class="mb-3" style="max-width: 180px;">
+                    <p class="text-white-50 small">Belanja mudah, aman, dan nyaman di Footlane. Produk berkualitas & harga terbaik setiap hari.</p>
+                    <div class="d-flex gap-3 mt-3 social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <h6 class="mb-3">Navigasi</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white
-text-decoration-none">Beranda</a></li>
-                        <li><a href="#" class="text-white
-text-decoration-none">Produk</a></li>
-                        <li><a href="#" class="text-white
-text-decoration-none">Kategori</a></li>
-                        <li><a href="#" class="text-white
-text-decoration-none">Kontak</a></li>
+
+                <div class="col-md-4 col-lg-3">
+                    <h5 class="footer-heading">Menu Utama</h5>
+                    <ul class="footer-links">
+                        <li><a href="/">Beranda</a></li>
+                        <li><a href="/products">Produk</a></li>
+                        <li><a href="/categories">Kategori</a></li>
+                        <li><a href="">Tentang Kami</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <h6 class="mb-3">Kontak Kami</h6>
-                    <ul class="list-unstyled small">
-                        <li><i class="bi bi-envelope"></i>
-                            info@ecommerce.com</li>
-                        <li><i class="bi bi-telephone"></i> +62 856 6100
-                            994</li>
-                        <li><i class="bi bi-geo-alt"></i> Tegal,
-                            Indonesia</li>
+
+                <div class="col-md-4 col-lg-3">
+                    <h5 class="footer-heading">Bantuan</h5>
+                    <ul class="footer-links">
+                        <li><a href="">Cara Berbelanja</a></li>
+                        <li><a href="">Pembayaran</a></li>
+                        <li><a href="">Pengiriman</a></li>
+                        <li><a href="">Pengembalian</a></li>
+                        <li><a href="">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <h5 class="footer-heading">Kontak Kami</h5>
+                    <ul class="footer-contact text-white-50">
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Jl. Merdeka No.123, Tegal</li>
+                        <li><i class="fas fa-phone me-2"></i>+62 856 6100 994</li>
+                        <li><i class="fas fa-envelope me-2"></i>footlanestore@gmail.com</li>
+                        <li><i class="fas fa-clock me-2"></i>08.00 - 20.00 WIB</li>
                     </ul>
                 </div>
             </div>
-            <hr class="bg-secondary">
-            <div class="text-center pb-3">
-                <small>(c) {{ date('Y') }} E-Commerce. All rights
-                    reserved.</small>
+
+            <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 pt-3">
+                <div>&copy; {{ date('Y') }} Footlane. All rights reserved.</div>
+
+                <div class="d-flex gap-2 mt-3 mt-md-0">
+                    <img src="{{ asset('img/visa.png') }}" alt="Visa" width="40" height="25">
+                    <img src="{{ asset('img/yandex.png') }}" alt="Yandex Pay" width="40" height="25">
+                    <img src="{{ asset('img/paypal.png') }}" alt="PayPal" width="40" height="25">
+                </div>
             </div>
         </div>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
