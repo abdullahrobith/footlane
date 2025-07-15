@@ -1,14 +1,11 @@
 <x-layout>
-    <x-slot name="title"> Products</x-slot>
-
-    <div class="container py-3">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 style="font-size: 1.5rem;">Product Kami</h3>
-            <form action="{{ url()->current() }}" method="GET" class="d-flex" style="max-width: 300px;">
-                <input type="text" name="search" class="form-control me-2" placeholder="Cari produk..."
-                    value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">Cari</button>
-            </form>
+    <x-slot name="title">{{ $category->name }}</x-slot>
+    <div class="container py-4">
+        <div class="row mb-4">
+            <div class="col">
+                <h3 class="mb-2" style="font-size: 1.7rem;">{{ $category->name }}</h3>
+                <p class="text-muted">{{ $category->description }}</p>
+            </div>
         </div>
         <div class="row">
             @forelse($products as $product)
@@ -32,8 +29,7 @@
                             </div>
             @empty
                 <div class="col">
-                    <div class="alert alert-info">Belum ada produk pada kategori
-                        ini.</div>
+                    <div class="alert alert-info">Belum ada produk pada kategori ini.</div>
                 </div>
             @endforelse
             <div class="d-flex justify-content-center w-100 mt-4">
@@ -41,4 +37,5 @@
             </div>
         </div>
     </div>
+
 </x-layout>

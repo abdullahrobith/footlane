@@ -16,7 +16,7 @@ class ProductsController extends Controller
     {
         $search = $request->input('search');
 
-    $products = Products::with('category') // relasi kategori
+        $products = Products::with('category') // relasi kategori
         ->when($search, function ($query, $search) {
             $query->where('name', 'like', '%' . $search . '%');
         })
@@ -86,7 +86,7 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        // $products = Products::find($id);
+        
     }
 
     /**
