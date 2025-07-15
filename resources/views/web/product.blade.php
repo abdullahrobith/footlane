@@ -37,7 +37,7 @@ Diketahui' }}</span>
                 <div class="mb-4">
                     <p class="text-muted">{{ $product->description }}</p>
                 </div>
-                <form action="{{ route('cart.add') }}" method="POST" class="mb-4">
+                <!-- <form action="{{ route('cart.add') }}" method="POST" class="mb-4">
                     @csrf
                     <div class="input-group" style="max-width: 320px;">
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -47,7 +47,7 @@ Diketahui' }}</span>
                             <i class="bi bi-cart-plus me-1"></i> Tambah ke Keranjang
                         </button>
                     </div>
-                </form>
+                </form> -->
                 <ul class="list-group list-group-flush mb-4">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span><strong>Stok:</strong></span>

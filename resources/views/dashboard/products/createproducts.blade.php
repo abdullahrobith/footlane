@@ -23,20 +23,37 @@
         <flux:input label="SKU" name="sku" class="mb-3" />
         <flux:input label="Price" name="price" class="mb-3" />
         <flux:input label="Stock" name="stock" class="mb-3" />
+
         <flux:select label="Product Category" name="product_category_id" class="mb-3">
             <option value="" disabled selected>Pilih Kategori</option>
             @foreach($categories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </flux:select>
-        <flux:input label="Image Url" name="image_url" class="mb-3" />
+
+        <!-- Upload Gambar dari File -->
+        <flux:input 
+            label="Upload Image (optional)" 
+            name="image_file" 
+            type="file" 
+            class="mb-3" 
+            accept="image/*" 
+        />
+
+        <!-- Input URL Gambar -->
+        <flux:input 
+            label="Image URL (optional)" 
+            name="image_url" 
+            type="text" 
+            class="mb-3" 
+            placeholder="https://example.com/image.jpg" 
+        />
+
         <flux:select label="Apakah Barang Masih Aktif?" name="is_active" class="mb-3">
             <option value="" disabled selected>Pilih Kategori</option>
             <option value="1">Aktif</option>
             <option value="0">Tidak Aktif</option>
         </flux:select>
-        
-
 
         <flux:separator />
 

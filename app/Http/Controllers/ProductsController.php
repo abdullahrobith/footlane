@@ -18,13 +18,13 @@ class ProductsController extends Controller
         $search = $request->input('search');
 
         $products = Products::with('category') // relasi kategori
-        ->when($search, function ($query, $search) {
-            $query->where('name', 'like', '%' . $search . '%');
-        })
-        ->paginate(10)
-        ->withQueryString(); // agar ?search tetap di pagination
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->paginate(10)
+            ->withQueryString(); // agar ?search tetap di pagination
 
-    return view('dashboard.products.indexproducts', ['products' => $products]);
+        return view('dashboard.products.indexproducts', ['products' => $products]);
     }
 
     /**
@@ -42,7 +42,6 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
         $validator = \Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -50,6 +49,7 @@ class ProductsController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'product_category_id' => 'required|exists:product_categories,id',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'image_url' => 'nullable|url',
             'is_active' => 'required|boolean'
         ]);
@@ -61,7 +61,12 @@ class ProductsController extends Controller
             ]);
         }
 
-        // Simpan data produk
+        if ($request->hasFile('image_file') && $request->filled('image_url')) {
+            return redirect()->back()->withInput()->with([
+                'errorMessage' => 'Pilih salah satu metode gambar: upload file atau input URL.'
+            ]);
+        }
+
         $product = new Products;
         $product->name = $request->name;
         $product->slug = Str::slug($request->name);
@@ -70,8 +75,14 @@ class ProductsController extends Controller
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->product_category_id = $request->product_category_id;
-        $product->image_url = $request->image_url;
         $product->is_active = $request->is_active;
+
+        if ($request->hasFile('image_file')) {
+            $imagePath = $request->file('image_file')->store('product_images', 'public');
+            $product->image_url = asset('storage/' . $imagePath);
+        } elseif ($request->filled('image_url')) {
+            $product->image_url = $request->image_url;
+        }
 
         $product->save();
 
@@ -82,12 +93,13 @@ class ProductsController extends Controller
 
 
 
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        
+
     }
 
     /**
@@ -107,7 +119,6 @@ class ProductsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Validasi input
         $validator = \Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -115,17 +126,31 @@ class ProductsController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'product_category_id' => 'required|exists:product_categories,id',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'image_url' => 'nullable|url',
             'is_active' => 'required|boolean'
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withInput()->with([
                 'errors' => $validator->errors(),
                 'errorMessage' => 'Validasi Error, silakan lengkapi data terlebih dahulu.'
             ]);
         }
-        // Simpan data produk
+
+        if ($request->hasFile('image_file') && $request->filled('image_url')) {
+            return redirect()->back()->withInput()->with([
+                'errorMessage' => 'Pilih salah satu metode gambar: upload file atau input URL.'
+            ]);
+        }
+
         $product = Products::find($id);
+        if (!$product) {
+            return redirect()->back()->with([
+                'errorMessage' => 'Data produk tidak ditemukan.'
+            ]);
+        }
+
         $product->name = $request->name;
         $product->slug = Str::slug($request->name);
         $product->description = $request->description;
@@ -133,15 +158,22 @@ class ProductsController extends Controller
         $product->price = $request->price;
         $product->stock = $request->stock;
         $product->product_category_id = $request->product_category_id;
-        $product->image_url = $request->image_url;
         $product->is_active = $request->is_active;
+
+        if ($request->hasFile('image_file')) {
+            $imagePath = $request->file('image_file')->store('product_images', 'public');
+            $product->image_url = asset('storage/' . $imagePath);
+        } elseif ($request->filled('image_url')) {
+            $product->image_url = $request->image_url;
+        }
 
         $product->save();
 
-        return redirect()->back()->with([
-            'successMessage' => 'Data produk berhasil disimpan.'
+        return redirect()->route('products.index')->with([
+            'successMessage' => 'Data produk berhasil diperbarui.'
         ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -151,7 +183,7 @@ class ProductsController extends Controller
         $products = Products::find($id);
         $products->delete();
         return redirect()->back()->with(
-        [
+            [
                 'successMessage' => 'Data Berhasil Dihapus'
             ]
         );
@@ -160,7 +192,7 @@ class ProductsController extends Controller
     public function sync($id, Request $request)
     {
         $product = Products::findOrFail($id);
-  
+
         $response = Http::post('https://api.phb-umkm.my.id/api/product/sync', [
             'client_id' => env('CLIENT_ID'),
             'client_secret' => env('CLIENT_SECRET'),
@@ -175,12 +207,12 @@ class ProductsController extends Controller
             'is_active' => $request->is_active == 1 ? false : true,
             'category_id' => (string) $product->category->hub_category_id,
         ]);
-  
+
         if ($response->successful() && isset($response['product_id'])) {
             $product->hub_product_id = $request->is_active == 1 ? null : $response['product_id'];
             $product->save();
         }
-  
+
         session()->flash('successMessage', 'Product Synced Successfully');
         return redirect()->back();
     }

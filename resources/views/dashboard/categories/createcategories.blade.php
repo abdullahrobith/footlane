@@ -18,11 +18,37 @@
     <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
+        <!-- Nama Kategori -->
         <flux:input label="Name" name="name" class="mb-3" value="{{ old('name') }}" />
+
+        <!-- Deskripsi -->
         <flux:textarea label="Description" name="description" class="mb-3">{{ old('description') }}</flux:textarea>
+
+        <!-- Separator -->
+        <flux:separator />
+
+        <!-- Upload Gambar dari File -->
+        <flux:input 
+            label="Upload Image (from file)" 
+            name="image_file" 
+            type="file" 
+            class="mb-3" 
+            accept="image/*" 
+        />
+
+        <!-- Atau input URL gambar -->
+        <flux:input 
+            label="Image URL (optional)" 
+            name="image_url" 
+            type="text" 
+            class="mb-3" 
+            placeholder="https://example.com/image.jpg" 
+            value="{{ old('image_url') }}" 
+        />
 
         <flux:separator />
 
+        <!-- Tombol -->
         <div class="mt-4">
             <flux:button type="submit" variant="primary">Simpan</flux:button>
             <flux:link href="{{ route('categories.index') }}" variant="ghost" class="ml-3">Kembali</flux:link>
