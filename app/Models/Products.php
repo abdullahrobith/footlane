@@ -20,4 +20,9 @@ class Products extends Model implements Cartable
     {
         return $this->price;
     }
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
 }

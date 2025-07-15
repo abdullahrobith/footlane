@@ -50,6 +50,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified']], fu
 
   Route::resource('categories', ProductCategoryController::class);
   Route::resource('products', ProductsController::class);
+  Route::post('products/sync/{id}', [ProductsController::class, 'sync'])->name('products.sync');
+  Route::post('category/sync/{id}', [ProductCategoryController::class, 'sync'])->name('category.sync');
 
 });
 

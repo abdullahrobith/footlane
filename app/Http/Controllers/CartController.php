@@ -45,18 +45,25 @@ class CartController extends Controller
     }
     public function remove($id)
     {
-        $product = Products::findOrFail($id);
-        $this->cart->removeItem($product);
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart.');
+        $item = CartItem::findOrFail($id);
+        $item->delete();
+        return redirect()->route('cart.index')->with('success', 'Item berhasil dihapus.');
     }
     public function update($id, Request $request)
     {
-        $product = Products::findOrFail($id);
-        if ($request->action == 'decrease') {
-            $this->cart->decreaseQuantity(item: $product);
-        } else if ($request->action == 'increase') {
-            $this->cart->increaseQuantity(item: $product);
+        $item = CartItem::findOrFail($id);
+
+        if ($request->action === 'decrease') {
+            if ($item->quantity > 1) {
+                $item->quantity -= 1;
+            }
+        } elseif ($request->action === 'increase') {
+            $item->quantity += 1;
         }
-        return redirect()->route('cart.index')->with('success', 'Cart updated successfully.');
+
+        $item->save();
+
+        return redirect()->route('cart.index')->with('success', 'Jumlah produk berhasil diperbarui.');
     }
+
 }

@@ -75,22 +75,22 @@ class HomepageController extends Controller
     public function cart()
     {
         $cart = Cart::query()
-            ->with(
-                [
-                    'items',
-                    'items.itemable'
-                ]
-            )
+            ->with([
+                'items',
+                'items.itemable'
+            ])
             ->where('user_id', auth()->guard('customer')->user()->id)
             ->first();
+
         return view($this->themeFolder . '.cart', [
             'title' => 'Cart',
             'cart' => $cart,
         ]);
     }
+
     public function checkout()
     {
-        return view($this->themeFolder.'.checkout',[
+        return view($this->themeFolder . '.checkout', [
             'title' => 'checkout'
         ]);
     }
